@@ -1,9 +1,11 @@
 package com.hexagonalarch.frameworks.rest.controllers;
 
 import com.hexagonalarch.adapters.controllers.PaymentController;
-import com.hexagonalarch.core.domain.OrderPayment;
+import com.hexagonalarch.adapters.presenters.GenericConverter;
+import com.hexagonalarch.core.domain.Payment;
 import com.hexagonalarch.core.domain.dto.PaymentNotificationDto;
 import com.hexagonalarch.core.domain.enumeration.PaymentStatus;
+import com.hexagonalarch.frameworks.rest.dto.request.CreatePaymentRequest;
 import com.hexagonalarch.frameworks.rest.dto.request.MercadoPagoWebhookRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,37 +14,39 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/payments")
 public class PaymentControllerRest {
     private final PaymentController paymentController;
+    private final GenericConverter genericConverter;
 
-    public PaymentControllerRest(PaymentController paymentController) {
+    public PaymentControllerRest(PaymentController paymentController, GenericConverter genericConverter) {
         this.paymentController = paymentController;
+        this.genericConverter = genericConverter;
     }
 
-    @PostMapping("/webhook")
-    public void handleMercadoPagoWebhook(@RequestBody MercadoPagoWebhookRequest request) {
-        String type = request.getType();
-        String paymentId = request.getData().getId();
-        boolean liveMode = request.isLiveMode();
-        String action = request.getAction();
-        paymentController.paymentWebhook(new PaymentNotificationDto(type, paymentId, action, liveMode));
-    }
+//    @PostMapping("/webhook")
+//    public void handleMercadoPagoWebhook(@RequestBody MercadoPagoWebhookRequest request) {
+//        String type = request.getType();
+//        String paymentId = request.getData().getId();
+//        boolean liveMode = request.isLiveMode();
+//        String action = request.getAction();
+//        paymentController.paymentWebhook(new PaymentNotificationDto(type, paymentId, action, liveMode));
+//    }
 
     @PostMapping("/qrcode")
-    public ResponseEntity<OrderPayment> createPayment(@RequestParam Long orderId) {
-        OrderPayment payment = paymentController.createPayment(orderId);
-        return ResponseEntity.ok(payment);
+    public ResponseEntity<Payment> createPayment(@RequestBody CreatePaymentRequest paymentRequest) {
+        Payment paymentInput = genericConverter.toDomain(paymentRequest, Payment.class);
+        return ResponseEntity.ok(paymentController.createPayment(paymentInput));
     }
 
-    @GetMapping("/order/{orderId}")
-    public ResponseEntity<OrderPayment> getPaymentByOrderId(@RequestParam Long orderId) {
-        OrderPayment payment = paymentController.getPaymentByOrderId(orderId);
-        return ResponseEntity.ok(payment);
-    }
-
-    @PutMapping("/order/{orderId}/simulate")
-    public ResponseEntity<OrderPayment> getPaymentByOrderId(@RequestParam Long orderId, PaymentStatus paymentStatus) {
-        OrderPayment payment = paymentController.updateStatusPayment(orderId, paymentStatus);
-        return ResponseEntity.ok(payment);
-    }
+//    @GetMapping("/order/{orderId}")
+//    public ResponseEntity<Payment> getPaymentByOrderId(@RequestParam Long orderId) {
+//        Payment payment = paymentController.getPaymentByOrderId(orderId);
+//        return ResponseEntity.ok(payment);
+//    }
+//
+//    @PutMapping("/order/{orderId}/simulate")
+//    public ResponseEntity<Payment> getPaymentByOrderId(@RequestParam Long orderId, PaymentStatus paymentStatus) {
+//        Payment payment = paymentController.updateStatusPayment(orderId, paymentStatus);
+//        return ResponseEntity.ok(payment);
+//    }
 
 
 }

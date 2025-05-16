@@ -11,7 +11,7 @@ FROM amazoncorretto:21-al2023
 WORKDIR /app
 
 # Copia o JAR da etapa de build
-COPY --from=builder /app/target/poc-hexagonal-arch-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/payment-api.jar app.jar
 
 # Define variáveis de ambiente (opcional)
 ENV JAVA_OPTS=""

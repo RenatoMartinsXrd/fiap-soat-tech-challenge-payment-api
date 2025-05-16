@@ -1,7 +1,7 @@
 package com.hexagonalarch.core.ports.usecases.Payment;
 
-import com.hexagonalarch.core.domain.OrderPayment;
+import com.hexagonalarch.core.domain.Payment;
 
 public interface GetPaymentByOrderUseCasePort {
-    OrderPayment getPaymentByOrderId(Long orderId);
+    Payment getPaymentByOrderId(Long orderId);
 }

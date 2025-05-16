@@ -1,10 +1,9 @@
 package com.hexagonalarch.core.ports.gateways;
 
-import com.hexagonalarch.core.domain.Order;
-import com.hexagonalarch.core.domain.OrderPayment;
+import com.hexagonalarch.core.domain.Payment;
 
 public interface PaymentGatewayPort {
-    OrderPayment generatePayment(Order order);
-    OrderPayment getPaymentByOrderId(OrderPayment order);
-    OrderPayment updatePaymentStatus(OrderPayment orderPayment);
+    Payment generatePayment(Payment payment);
+    Payment getPaymentByOrderId(Payment order);
+    Payment updatePaymentStatus(Payment orderPayment);
 }

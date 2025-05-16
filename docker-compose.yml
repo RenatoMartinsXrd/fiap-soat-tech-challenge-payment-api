@@ -1,55 +1,35 @@
 version: '3.5'
 
 services:
-  postgres:
-    container_name: postgres_container
-    image: postgres:16
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
-      PGDATA: /data/postgres
-    volumes:
-      - postgres:/data/postgres
-    ports:
-      - "5432:5432"
-    networks:
-      - postgres
+  mongo-payment:
+    container_name: mongo_payment_container
+    image: mongo:6
     restart: unless-stopped
-
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
     ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - "27017:27017"
     networks:
-      - postgres
-    restart: unless-stopped
+      - payment-network
+    volumes:
+      - mongo_payment_data:/data/db
 
-  tech-challenge-fase-1:
-    container_name: poc-hexagonal-container
-    image: tech-challenge-fase-1
+  mongo-express:
+    container_name: mongo_express_payment
+    image: mongo-express
+    restart: unless-stopped
+    ports:
+      - "8084:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo-payment
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin
+    networks:
+      - payment-network
     depends_on:
-      - postgres
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-postgres}
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
-    ports:
-      - "8080:8080"
-    networks:
-      - postgres
-    restart: unless-stopped
+      - mongo-payment
 
 networks:
-  postgres:
+  payment-network:
     driver: bridge
 
 volumes:
-  postgres:
-  pgadmin:
+  mongo_payment_data:

@@ -1,6 +1,5 @@
 package com.hexagonalarch.frameworks.rest.dto.response;
 
-import com.hexagonalarch.core.domain.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
