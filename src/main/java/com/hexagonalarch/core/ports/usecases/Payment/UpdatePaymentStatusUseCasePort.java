@@ -4,5 +4,5 @@ import com.hexagonalarch.core.domain.Payment;
 import com.hexagonalarch.core.domain.enumeration.PaymentStatus;
 
 public interface UpdatePaymentStatusUseCasePort {
-    Payment updateStatusPayment(Long orderId, PaymentStatus paymentStatus);
+    Payment updateStatusPayment(Long orderId, String paymentStatus);
 }

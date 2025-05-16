@@ -7,6 +7,7 @@ import com.hexagonalarch.core.domain.dto.PaymentNotificationDto;
 import com.hexagonalarch.core.domain.enumeration.PaymentStatus;
 import com.hexagonalarch.frameworks.rest.dto.request.CreatePaymentRequest;
 import com.hexagonalarch.frameworks.rest.dto.request.MercadoPagoWebhookRequest;
+import com.hexagonalarch.frameworks.rest.dto.request.UpdateOrderStatusRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,12 +44,13 @@ public class PaymentControllerRest {
         List<Payment> payment = paymentController.getPaymentByOrderId(orderId);
         return ResponseEntity.ok(payment);
     }
-//
-//    @PutMapping("/order/{orderId}/simulate")
-//    public ResponseEntity<Payment> getPaymentByOrderId(@RequestParam Long orderId, PaymentStatus paymentStatus) {
-//        Payment payment = paymentController.updateStatusPayment(orderId, paymentStatus);
-//        return ResponseEntity.ok(payment);
-//    }
 
-
+    @PutMapping("/order/{orderId}/simulate")
+    public ResponseEntity<Payment> updatePaymentByOrderId(@PathVariable Long orderId, @RequestBody UpdateOrderStatusRequest request) {
+        String status = request.getStatus() != null ? request.getStatus().toUpperCase() : "APPROVED";
+        if (!List.of("APPROVED", "PENDING", "REJECTED").contains(status)) {
+            status = "APPROVED";
+        }
+        return ResponseEntity.ok(paymentController.updateStatusPayment(orderId, status));
+    }
 }

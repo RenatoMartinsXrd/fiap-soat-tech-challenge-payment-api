@@ -7,5 +7,5 @@ import java.util.List;
 public interface PaymentGatewayPort {
     Payment generatePayment(Payment payment);
     List<Payment> getPaymentsByOrderId(Long orderId);
-    Payment updatePaymentStatus(Payment orderPayment);
+    Payment updatePaymentStatus(Long orderId, String status);
 }

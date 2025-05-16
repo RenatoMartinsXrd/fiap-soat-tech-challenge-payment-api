@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -30,7 +32,14 @@ public class PaymentRepositoryAdapter implements PaymentGatewayPort {
     }
 
     @Override
-    public Payment updatePaymentStatus(Payment orderPayment) {
-        return null;
+    public Payment updatePaymentStatus(Long orderID, String status) {
+        PaymentDocument paymentDocument = paymentRepository.findAllByOrderId(orderID).get(0);
+        if(paymentDocument==null) new RuntimeException("Pagamento não encontrado com id: " + orderID);
+
+        paymentDocument.setStatus(status);
+        paymentDocument.setUpdatedAt(Instant.now());
+
+        PaymentDocument updated = paymentRepository.save(paymentDocument);
+        return modelMapper.map(updated, Payment.class);
     }
 }
