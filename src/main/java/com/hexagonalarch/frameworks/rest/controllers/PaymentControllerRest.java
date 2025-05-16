@@ -10,6 +10,8 @@ import com.hexagonalarch.frameworks.rest.dto.request.MercadoPagoWebhookRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/payments")
 public class PaymentControllerRest {
@@ -36,11 +38,11 @@ public class PaymentControllerRest {
         return ResponseEntity.ok(paymentController.createPayment(paymentInput));
     }
 
-//    @GetMapping("/order/{orderId}")
-//    public ResponseEntity<Payment> getPaymentByOrderId(@RequestParam Long orderId) {
-//        Payment payment = paymentController.getPaymentByOrderId(orderId);
-//        return ResponseEntity.ok(payment);
-//    }
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<List<Payment>> getPaymentByOrderId(@PathVariable Long orderId) {
+        List<Payment> payment = paymentController.getPaymentByOrderId(orderId);
+        return ResponseEntity.ok(payment);
+    }
 //
 //    @PutMapping("/order/{orderId}/simulate")
 //    public ResponseEntity<Payment> getPaymentByOrderId(@RequestParam Long orderId, PaymentStatus paymentStatus) {

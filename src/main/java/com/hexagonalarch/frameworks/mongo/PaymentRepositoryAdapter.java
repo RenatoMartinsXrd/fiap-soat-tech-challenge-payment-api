@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @AllArgsConstructor
 public class PaymentRepositoryAdapter implements PaymentGatewayPort {
@@ -21,8 +23,10 @@ public class PaymentRepositoryAdapter implements PaymentGatewayPort {
     }
 
     @Override
-    public Payment getPaymentByOrderId(Payment order) {
-        return null;
+    public List<Payment> getPaymentsByOrderId(Long orderId) {
+        return paymentRepository.findAllByOrderId(orderId).stream()
+                .map(doc -> modelMapper.map(doc, Payment.class))
+                .toList();
     }
 
     @Override

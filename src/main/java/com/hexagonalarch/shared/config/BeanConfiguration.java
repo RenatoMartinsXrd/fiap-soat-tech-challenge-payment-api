@@ -7,6 +7,7 @@ import com.hexagonalarch.core.ports.usecases.Payment.GetPaymentByOrderUseCasePor
 import com.hexagonalarch.core.ports.usecases.Payment.PaymentWebhookUseCasePort;
 import com.hexagonalarch.core.ports.usecases.Payment.UpdatePaymentStatusUseCasePort;
 import com.hexagonalarch.core.usecases.Payment.CreatePaymentUseCase;
+import com.hexagonalarch.core.usecases.Payment.GetPaymentByOrderUseCase;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +29,8 @@ public class BeanConfiguration {
 
     @Bean
     public PaymentController paymentController(
-                                               CreatePaymentUseCasePort createPaymentUseCasePort){
-        return new PaymentController(createPaymentUseCasePort);
+                                               CreatePaymentUseCasePort createPaymentUseCasePort, GetPaymentByOrderUseCasePort getPaymentByOrderUseCasePort){
+        return new PaymentController(createPaymentUseCasePort, getPaymentByOrderUseCasePort);
     }
 
     @Bean
@@ -42,10 +43,10 @@ public class BeanConfiguration {
 //        return new UpdatePaymentStatusUseCase(orderPaymentGatewayPort, paymentWebhookUseCase);
 //    }
 //
-//    @Bean
-//    public GetPaymentByOrderUseCasePort getPaymentByOrderUseCasePort( PaymentGatewayPort paymentGatewayPort, OrderPaymentGatewayPort orderPaymentGatewayPort){
-//        return new GetPaymentByOrderUseCase(paymentGatewayPort, orderPaymentGatewayPort);
-//    }
+    @Bean
+    public GetPaymentByOrderUseCasePort getPaymentByOrderUseCasePort( PaymentGatewayPort paymentGatewayPort){
+        return new GetPaymentByOrderUseCase(paymentGatewayPort);
+    }
 //
 //    @Bean
 //    public PaymentWebhookUseCasePort paymentWebhookUseCasePort(OrderPaymentGatewayPort paymentGatewayPort, OrderGatewayPort orderGatewayPort) {

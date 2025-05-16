@@ -8,29 +8,25 @@ import com.hexagonalarch.core.ports.usecases.Payment.GetPaymentByOrderUseCasePor
 import com.hexagonalarch.core.ports.usecases.Payment.PaymentWebhookUseCasePort;
 import com.hexagonalarch.core.ports.usecases.Payment.UpdatePaymentStatusUseCasePort;
 
+import java.util.List;
+
 public class PaymentController {
-//    private final PaymentWebhookUseCasePort paymentWebhookUseCasePort;
     private final CreatePaymentUseCasePort createPaymentUseCasePort;
-//    private final GetPaymentByOrderUseCasePort getPaymentByOrderUseCasePort;
+    private final GetPaymentByOrderUseCasePort getPaymentByOrderUseCasePort;
 //    private final UpdatePaymentStatusUseCasePort updatePaymentStatusUseCasePort;
 
-//    public PaymentController(PaymentWebhookUseCasePort paymentWebhookUseCasePort, CreatePaymentUseCasePort createPaymentUseCasePort, GetPaymentByOrderUseCasePort paymentByOrderUseCasePort, UpdatePaymentStatusUseCasePort updatePaymentStatusUseCasePort) {
-public PaymentController(CreatePaymentUseCasePort createPaymentUseCasePort) {
-//        this.paymentWebhookUseCasePort = paymentWebhookUseCasePort;
+    public PaymentController(CreatePaymentUseCasePort createPaymentUseCasePort, GetPaymentByOrderUseCasePort getPaymentByOrderUseCasePort) {
         this.createPaymentUseCasePort = createPaymentUseCasePort;
-//        this.getPaymentByOrderUseCasePort = paymentByOrderUseCasePort;
 //        this.updatePaymentStatusUseCasePort = updatePaymentStatusUseCasePort;
+        this.getPaymentByOrderUseCasePort = getPaymentByOrderUseCasePort;
     }
-//    public void paymentWebhook(PaymentNotificationDto paymentNotificationDto){
-//        paymentWebhookUseCasePort.processPaymentWebhook(paymentNotificationDto);
-//    }
     public Payment createPayment(Payment payment){
         return createPaymentUseCasePort.createPayment(payment);
     }
 //
-//    public Payment getPaymentByOrderId(Long orderId){
-//        return getPaymentByOrderUseCasePort.getPaymentByOrderId(orderId);
-//    }
+    public List<Payment> getPaymentByOrderId(Long orderId){
+        return getPaymentByOrderUseCasePort.getPaymentByOrderId(orderId);
+    }
 //
 //    public Payment updateStatusPayment(Long orderId, PaymentStatus paymentStatus){
 //        return updatePaymentStatusUseCasePort.updateStatusPayment(orderId, paymentStatus);
