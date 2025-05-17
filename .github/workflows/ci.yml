@@ -94,6 +94,9 @@ jobs:
         run: |
           aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
 
+      - name: Mostrar identidade IAM atual
+        run: aws sts get-caller-identity
+
 #      - name: Criar ou atualizar ECR Secret no Kubernetes
 #        run: |
 #          kubectl create secret docker-registry ecr-secret \
