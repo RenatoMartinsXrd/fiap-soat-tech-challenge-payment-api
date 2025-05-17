@@ -97,10 +97,11 @@ jobs:
       - name: Criar ou atualizar ECR Secret no Kubernetes
         run: |
           kubectl create secret docker-registry ecr-secret \
-            --docker-server=${{ env.ECR_REGISTRY }} \
-            --docker-username=AWS \
-            --docker-password="$(aws ecr get-login-password --region ${{ env.AWS_REGION }})" \
-            --namespace=default --dry-run=client -o yaml | kubectl apply -f -
+          --docker-server=... \
+          --docker-username=... \
+          --docker-password=... \
+          --docker-email=... \
+          --validate=false
 
       - name: Criar Secrets do banco no Kubernetes
         run: |
