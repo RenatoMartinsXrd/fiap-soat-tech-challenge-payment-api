@@ -114,5 +114,5 @@ jobs:
         run: |
           IMAGE_URI=${{ env.ECR_REGISTRY }}/tech-challenge/${{ env.SERVICE_REPO_NAME }}
           echo "Deploying image: $IMAGE_URI:latest"
-          helm upgrade --install fiap-tech-challenge ./infra \
+          helm upgrade --install ${{ env.SERVICE_REPO_NAME }} ./infra \
             --set app.image=$IMAGE_URI:latest
