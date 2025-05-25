@@ -38,7 +38,7 @@ Microserviço responsável pelo processo de gestão de pagamentos da lanchonete 
    docker-compose up --build
    ```
 
-3. A API estará disponível em [http://localhost:8083](http://localhost:8083).
+3. A API estará disponível em [http://localhost:8080](http://localhost:8080).
 
 4. Caso precise acessar o banco de dados, pode usar o Mongo Compass ou outra ferramenta de sua preferência.
 
@@ -48,7 +48,7 @@ Microserviço responsável pelo processo de gestão de pagamentos da lanchonete 
 
 - A documentação da API pode ser acessada através do Swagger UI. Abra o seguinte URL no seu navegador:
   ```sh
-  http://localhost:8083/swagger-ui/index.html
+  http://localhost:8080/swagger-ui/index.html
   ```
 
 ---
