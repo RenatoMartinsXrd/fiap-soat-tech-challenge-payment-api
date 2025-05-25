@@ -22,7 +22,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-
+          env:
+            - name: SPRING_DATA_MONGODB_URI
+              value: mongodb://localhost:27017/{{ .Release.Name }}
           resources:
             requests:
               cpu: "{{ .Values.app.resources.requests.cpu }}"
@@ -30,17 +32,28 @@ spec:
             limits:
               cpu: "{{ .Values.app.resources.limits.cpu }}"
               memory: "{{ .Values.app.resources.limits.memory }}"
-
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
             initialDelaySeconds: 15
             periodSeconds: 10
-
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 5
+
+        - name: mongodb
+          image: mongo:7.0
+          ports:
+            - containerPort: 27017
+          args: ["--bind_ip", "127.0.0.1"]
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+
+      volumes:
+        - name: mongo-data
+          emptyDir: {}
